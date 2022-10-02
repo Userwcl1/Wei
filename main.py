@@ -8,22 +8,32 @@ import random
 
 today = datetime.now()
 start_date = os.environ['START_DATE']
-city = os.environ['CITY']
+city = os.environ['CITY'] #敏敏
+cityw = os.environ['CITY'] #我
 birthday = os.environ['BIRTHDAY']
 
 app_id = os.environ["APP_ID"]
 app_secret = os.environ["APP_SECRET"]
 
-user_w=os.environ["USER_W"]
-#user_id = os.environ["USER_ID"]
+user_w=os.environ["USER_W"] #我
+user_id = os.environ["USER_ID"] #敏敏
 template_id = os.environ["TEMPLATE_ID"]
 
-
+#敏敏的天气
 def get_weather():
   url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
   res = requests.get(url).json()
   weather = res['data']['list'][0]
   return weather['weather'], math.floor(weather['temp'])
+
+
+#我的天气
+
+def get_weatherw():
+  url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+  resw = requests.get(url).json()
+  weatherw = res['data']['list'][0]
+  return weatherw['weatherw'], math.floor(weatherw['temp'])
 
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
@@ -49,9 +59,12 @@ client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 wea, temperature = get_weather()
-data = {"city":{"value":city},"weather":{"value":wea},"temperature":{"value":temperature},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
-#res = wm.send_template(user_id, template_id, data)
-resw=wm.send_template(user_w, template_id, data)
-#print(res)
+weaw,temperaturew = get_weatherw()
+data = {"city":{"value":city},"weather":{"value":wea},"temperature":{"value":temperature},
+        "love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}} #敏敏
+dataw = {"cityw":{"value":cityw},"weatherw":{"value":weaw},"temperaturew":{"value":temperaturew},"words":{"value":get_words(), "color":get_random_color()}} #我
+res = wm.send_template(user_id, template_id, data) #敏敏
+resw=wm.send_template(user_w, template_id, dataw) #我
+print(res)
 print(resw)
 
