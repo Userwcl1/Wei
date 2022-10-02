@@ -68,10 +68,10 @@ wm = WeChatMessage(client)
 wea, temperature = get_weather()
 weaw,temperaturew = get_weatherw()
 data = {"city":{"value":city},"weather":{"value":wea},"temperature":{"value":temperature},
-      "love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}} #敏敏
-dataw = {"cityw":{"value":cityw},"weatherw":{"value":weaw},"temperaturew":{"value":temperaturew},"wordsw":{"value":get_wordsw(), "color":get_random_color()}} #我
+      "love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()},
+"cityw":{"value":cityw},"weatherw":{"value":weaw},"temperaturew":{"value":temperaturew},"wordsw":{"value":get_wordsw()}} #我
 res = wm.send_template(user_id,template_id, data) #敏敏
-resw = wm.send_template(user_w,template_id, dataw) #我
-print(res,resw)
-print(resw,res)
+resw = wm.send_template(user_w,template_id, data) #我
+print(res)
+print(resw)
 
